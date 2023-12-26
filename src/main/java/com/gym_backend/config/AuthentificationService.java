@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthentificationService {
 
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -31,7 +31,8 @@ public class AuthentificationService {
                 .role(Role.ADMIN)
                 .build();
         userRepository.save(user);
-        String jwt = jwtService.generateToken(user);
+        var jwt = jwtService.generateToken(user);
+
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }
     public JwtAuthenticationResponse signin(SigninRequest request){

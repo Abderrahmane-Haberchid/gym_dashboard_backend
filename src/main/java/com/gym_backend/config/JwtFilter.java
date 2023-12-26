@@ -13,8 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -34,13 +32,13 @@ public class JwtFilter extends OncePerRequestFilter {
         final String userEmail;
 
         authHeader = request.getHeader("Authorization");
-        jwt = authHeader.substring(7);
-        userEmail = jwtService.extractEmail(jwt);
 
-        if (!authHeader.isEmpty() || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
+        jwt = authHeader.substring(7);
+        userEmail = jwtService.extractEmail(jwt);
         if (!userEmail.isEmpty() || SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
 

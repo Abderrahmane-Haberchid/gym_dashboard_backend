@@ -6,6 +6,7 @@ import com.gym_backend.models.Membre;
 import com.gym_backend.repository.MembreRepository;
 import com.gym_backend.services.MembreService;
 import com.gym_backend.services.Impl.MembreServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +17,13 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/membres")
+@RequiredArgsConstructor
 public class MembreController {
 
-    private final MembreService membreService;
-    private final MembreRepository membreRepository;
     @Autowired
-    public MembreController(MembreServiceImpl membreService, MembreRepository membreRepository) {
-        this.membreService = membreService;
-        this.membreRepository = membreRepository;
-    }
+    private final MembreService membreService;
+    @Autowired
+    private final MembreRepository membreRepository;
 
     @GetMapping("id/{id}")
     public Optional<Membre> findById(@PathVariable Long id){

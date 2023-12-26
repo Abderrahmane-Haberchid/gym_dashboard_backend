@@ -32,24 +32,22 @@ public class MembreServiceImpl implements MembreService {
     }
 
     @Override
-    public Boolean addMembre(MembreDto membreDto) {
-            Membre membre = new Membre();
+    public MembreDto addMembre(MembreDto membreDto) {
+            var membre = Membre.builder()
 
-            membre.setNom(membreDto.getNom());
-            membre.setPrenom(membreDto.getPrenom());
-            membre.setTelephone(membreDto.getTelephone());
-            membre.setEmail(membreDto.getEmail());
-            membre.setAdresse(membreDto.getAdresse());
-            membre.setAge(membreDto.getAge());
-            membre.setDate_inscription(new Date());
-            membre.setDate_update(new Date());
-            membre.setState("Actif");
-            membre.setStatut("Bundled");
-            Membre result = membreRepository.save(membre);
-        if (result.equals(membre)) {
-            return true;
-        }
-        else return false;
+                    .nom(membreDto.getNom())
+                    .prenom(membreDto.getPrenom())
+                    .telephone(membreDto.getTelephone())
+                    .email(membreDto.getEmail())
+                    .adresse(membreDto.getAdresse())
+                    .age(membreDto.getAge())
+                    .date_inscription(new Date())
+                    .date_update(new Date())
+                    .state("Actif")
+                    .statut("Bundled")
+                    .build();
+            membreRepository.save(membre);
+            return membreDto;
     }
 
     @Override
